@@ -46,11 +46,13 @@ const sourceStr = `
            */
           this.$emit('onChange', '1')
         },
+        /**
+         * 测试demo
+         * @emit test|测试emit事件
+         * @emit success|测试emit success事件
+         */
         demo(){
-          /**
-           * 在文档中忽略当前事件
-           * @doc-ignore
-           */
+          // @doc-ignore
           this.$emit('test', '111')
         }
       }
@@ -60,8 +62,6 @@ const sourceStr = `
 let jsSourceStr = extractJsPart(sourceStr)
 // AST
 const parsed = jsdoc.explainSync({ source: jsSourceStr })
-
-
 
 console.log(parsed)
 
