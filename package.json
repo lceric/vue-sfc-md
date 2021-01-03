@@ -15,7 +15,7 @@
   "author": "Eric",
   "license": "ISC",
   "dependencies": {
-    "jsdoc": "~3.6.6",
-    "jsdoc-api": "^6.0.0"
+    "@vuedoc/parser": "^3.1.1",
+    "markdown-table": "^2.0.0"
   }
 }

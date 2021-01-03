@@ -1,74 +1,51 @@
-const jsdoc = require('jsdoc-api')
+const fs = require('fs')
+const path = require('path')
+const vuedoc = require('@vuedoc/parser')
+const {
+  handleFileDoc,
+  handlePropsDoc,
+  handleEventsDoc,
+  handleMethodsDoc,
+  handleSlotsDoc,
+} = require('./core')
 
-const sourceStr = `
-#index.vue示例
-<template src="./template.html"></template>
-
-<script lang="js">
-  // script.js示例
-  import Vue from 'vue'
-  export default {
-      name: 'x-button',  // 组件名称
-      props: {
-          /** 
-           * 尺寸
-           * @optional mini|small|medium|large   // 属性可选值
-          */
-          size: {
-              type: String,
-              default: 'medium',
-          },
-          /** 
-           * 类型
-           * @optional primary|success|info|warning|danger
-          */
-          type: {
-              type: String,
-          },
-          /** 
-           * 是否禁止
-          */
-          disabled: {
-              type: Boolean,
-              default: false
-          }
-      },
-      data() {
-          return {
-
-          }
-      },
-      methods: {
-        click(){
-          /**
-           * 变化事件
-           * @arg {string} value - The input value
-           */
-          this.$emit('onChange', '1')
-        },
-        demo(){
-          /**
-           * 在文档中忽略当前事件
-           * @doc-ignore
-           */
-          this.$emit('test', '111')
-        }
-      }
-  }
-</script>
-`
-let jsSourceStr = extractJsPart(sourceStr)
-// AST
-const parsed = jsdoc.explainSync({ source: jsSourceStr })
-
-
-
-console.log(parsed)
-
-
-function extractJsPart(source) {
-  let reg = /(?:<script .*?>)([\s\S]*?)(?:<\/script>)/gi
-  let regRes = reg.exec(source)
-  console.log(regRes[1])
-  return regRes[1] || ''
+/**
+ * parse source string
+ * @param {String} str source string
+ */
+function parsedSource(str = '', opts = {}) {
+  return vuedoc.parse({ filecontent: str, ...opts })
 }
+
+/**
+ * 入口
+ * @param {String} vueFileStr SFC string
+ */
+async function entry(vueFileStr) {
+  let fileDocs = handleFileDoc(vueFileStr)
+
+  let parsed = await parsedSource(vueFileStr)
+  let { events, methods, props, slots } = parsed
+
+  let propsDoc = handlePropsDoc(props)
+  let eventsDoc = handleEventsDoc(events)
+  let methodsDoc = handleMethodsDoc(methods)
+  let slotsDoc = handleSlotsDoc(slots)
+
+  return [...fileDocs, propsDoc, eventsDoc, methodsDoc, slotsDoc]
+}
+
+/**
+ * 主线程
+ */
+async function main() {
+  const sourceStr = fs.readFileSync(
+    path.join(__dirname, './example.vue'),
+    'utf8'
+  )
+
+  let doc = await entry(sourceStr)
+  console.log(doc)
+}
+
+main()
