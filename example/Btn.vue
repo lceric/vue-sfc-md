@@ -1,6 +1,6 @@
 <!--
 * button组件
-* @kkk 年后
+* @expect 组件期望
 -->
 <template>
   <div class="na">
@@ -35,19 +35,9 @@ export default {
       default: 'medium',
     },
     /**
-     * 类型
-     * @optional primary|success|info|warning|danger
+     * 禁用状态
      */
-    type: {
-      type: String,
-    },
-    /**
-     * 是否禁止
-     */
-    disabled: {
-      type: Boolean,
-      default: false,
-    },
+    disabled: Boolean
   },
   methods: {
     /**

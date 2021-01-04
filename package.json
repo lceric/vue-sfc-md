@@ -1,8 +1,8 @@
 {
-  "name": "vue-component-doc",
+  "name": "vue-sfc-md",
   "version": "1.0.0",
   "description": "vue component docs by js-doc",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
