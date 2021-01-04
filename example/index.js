@@ -10,8 +10,8 @@ async function main() {
     'utf8'
   )
 
-  let doc = await parsed(sourceStr)
-  let sfcDoc = doc.map(m => m.doc).join('\n')
+  let docModules = await parsed(sourceStr)
+  let sfcDoc = docModules.map(m => !m.empty && m.doc).join('\n')
   console.log(sfcDoc)
 }
 
