@@ -1,6 +1,7 @@
 <!--
-* button组件
-* @expect 组件期望
+* Button组件
+* @design 统一button的表现
+* @expect 按钮统一，提供多种类型
 -->
 <template>
   <div class="na">
