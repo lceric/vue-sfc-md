@@ -28,3 +28,24 @@ async function main() {
 
 main()
 ```
+
+## config
+```js
+const opts = {
+  encoding,
+  features,
+  loaders,
+  ignoredVisibilities,
+  jsx,
+  commentExtra
+}
+
+parsed(vueFileStr, opts)
+
+// commentExtra
+// file commont map
+{
+  design: '自定义',
+  val: 'VAL'
+}
+```
