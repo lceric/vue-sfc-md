@@ -11,7 +11,7 @@ async function main() {
   )
 
   let docModules = await parsed(sourceStr)
-  let sfcDoc = docModules.map(m => !m.empty && m.doc).join('\n')
+  let sfcDoc = docModules.filter(m => !m.empty).map(m => m.doc).join('\n')
   console.log(sfcDoc)
 }
 
