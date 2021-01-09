@@ -31,12 +31,17 @@ main()
 ## Support
 
 ### file top comment
-支持文件注释解析
+
+**支持文件注释解析**
+title文件标题，h1
 ```vue
 <!--
-* Button组件
+* Button组件的描述部分，描述补充，介绍部分
+* @title 组件Title
 * @design 统一button的表现
-* @expect 按钮统一，提供多种类型
+* @expect
+  1. 测试
+  2. 看看
 -->
 <template></template>
 ```
