@@ -1,6 +1,6 @@
 {
   "name": "vue-sfc-md",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "vue component docs by @vuedoc/parser",
   "main": "lib/index.js",
   "scripts": {
