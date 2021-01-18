@@ -1,10 +1,9 @@
 {
   "name": "vue-sfc-md",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "vue component docs by @vuedoc/parser",
   "main": "lib/index.js",
   "scripts": {
-    "postinstall": "patch-package",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -20,10 +19,7 @@
   "author": "Eric",
   "license": "ISC",
   "dependencies": {
-    "markdown-table": "^2.0.0"
-  },
-  "devDependencies": {
-    "@vuedoc/parser": "^3.2.1",
-    "patch-package": "^6.2.2"
+    "markdown-table": "^2.0.0",
+    "@vuedoc/parser": "^3.2.1"
   }
 }
