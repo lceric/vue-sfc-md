@@ -1,39 +1,71 @@
 ## vue-sfc-md
+
 read vue sfc, or sfc string, output md modules. [@vuedoc/paser](https://github.com/vuedoc/parser)
 
 ## Install
+
 ```bash
 npm i vue-sfc-md
 ```
 
+## Config
+
+```js
+const opts = {
+  encoding,
+  features,
+  loaders,
+  ignoredVisibilities,
+  jsx,
+  commentExtra,
+  removeEmptyColumns: true, // 是否需要移除空列
+  emptyFlags: ['-'], // 空列的判断标识，默认是['-']
+}
+
+parsed(vueFileStr, opts)
+
+// commentExtra
+// file commont map
+{
+  design: '自定义',
+  val: 'VAL'
+}
+```
 ## Usage
 
 ```js
-const fs = require('fs');
-const path = require('path');
+const fs = require('fs')
+const path = require('path')
 const { parsed } = require('vue-sfc-md')
 /**
  * 主线程
  */
 async function main() {
-  const sourceStr = fs.readFileSync(
-    path.join(__dirname, '[your path].vue'),
-    'utf8'
-  )
+  const sourceStr = fs.readFileSync(path.join(__dirname, './Btn.vue'), 'utf8')
 
-  let doc = await parsed(sourceStr)
-  let sfcDoc = doc.map(m => m.doc).join('\n')
+  let docModules = await parsed(sourceStr, {
+    jsx: true,
+    removeEmptyColumns: true,
+    emptyFlags: ['-', '`false`'],
+  })
+
+  let sfcDoc = docModules
+    .filter((m) => !m.empty)
+    .map((m) => m.doc)
+    .join('\n')
   console.log(sfcDoc)
 }
 
 main()
 ```
+
 ## Support
 
 ### file top comment
 
 **支持文件注释解析**
-title文件标题，h1
+title 文件标题，h1
+
 ```vue
 <!--
 * Button组件的描述部分，描述补充，介绍部分
@@ -58,20 +90,24 @@ title文件标题，h1
 
 ### prop optional
 
-```vue
-/**
+```js
+{
+  /**
   * 尺寸
   * @optional mini|small|medium|large
   */
-size: {
-  type: String,
-  default: 'medium',
-},
+  size: {
+   type: String,
+   default: 'medium',
+  },
+}
 ```
 
 ## Example
+
 a example sfc:
-```vue
+
+```html
 <!--
 * Button组件
 * @design 统一button的表现
@@ -112,7 +148,7 @@ export default {
     /**
      * 禁用状态
      */
-    disabled: Boolean
+    disabled: Boolean,
   },
   methods: {
     /**
@@ -142,61 +178,47 @@ export default {
   },
 }
 </script>
-
 ```
+
 output markdown source:
 
 ```markdown
 ## 组件说明
-Button组件
+
+Button 组件
 
 ## 设计初衷
-统一button的表现
+
+统一 button 的表现
 
 ## 组件期望
+
 按钮统一，提供多种类型
 
 ## Props
+
 | name       | description | type      | optional                  | required | default    |
 | ---------- | ----------- | --------- | ------------------------- | -------- | ---------- |
-| `disabled` | 禁用状态        | `Boolean` | -                         | `false`  | -          |
-| `size`     | 尺寸          | `String`  | `mini,small,medium,large` | `false`  | `"medium"` |
+| `disabled` | 禁用状态    | `Boolean` | -                         | `false`  | -          |
+| `size`     | 尺寸        | `String`  | `mini,small,medium,large` | `false`  | `"medium"` |
 
 ## Events
-| name       | description | args                                                                  |
-| ---------- | ----------- | --------------------------------------------------------------------- |
-| `onChange` | 变化事件        | `value：string` The input value，`obj：object` `{ key: 'k', value: 'v'}` |
+
+| name       | description | args                                                                     |
+| ---------- | ----------- | ------------------------------------------------------------------------ |
+| `onChange` | 变化事件    | `value：string` The input value，`obj：object` `{ key: 'k', value: 'v'}` |
 
 ## Methods
+
 | name    | description | params                            |
 | ------- | ----------- | --------------------------------- |
-| `click` | 点击事件        | `event：Event` description event.  |
+| `click` | 点击事件    | `event：Event` description event. |
 
 ## Slots
-| slot      | description    | bind                  |
-| --------- | -------------- | --------------------- |
-| `default` | 这是默认的slot      | -                     |
-| `title`   | 这是一个title slot | `{ size, type }`大小和类型 |
 
+| slot      | description         | bind                       |
+| --------- | ------------------- | -------------------------- |
+| `default` | 这是默认的 slot     | -                          |
+| `title`   | 这是一个 title slot | `{ size, type }`大小和类型 |
 ```
 
-## Config
-```js
-const opts = {
-  encoding,
-  features,
-  loaders,
-  ignoredVisibilities,
-  jsx,
-  commentExtra
-}
-
-parsed(vueFileStr, opts)
-
-// commentExtra
-// file commont map
-{
-  design: '自定义',
-  val: 'VAL'
-}
-```
